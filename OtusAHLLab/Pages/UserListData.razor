@@ -1,0 +1,49 @@
+﻿@page "/userlist"
+
+@using OtusAHLLab.Data
+@using OtusAHLLab.Modules.Secutity
+@inject IUserService UserService
+
+<h1>Пользователи нашего сервиса</h1>
+
+@if (UserService == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Имя</th>
+            <th>Фамилия</th>
+            <th>Возраст</th>
+            <th>Город</th>
+            <th>Увлечения</th>
+            <th>Пол</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var user in users)
+        {
+            <tr>
+                <td>@user.FirstName</td>
+                <td>@user.LastName</td>
+                <td>@user.Age</td>
+                <td>@user.City</td>
+                <td>@user.Hobby</td>
+                <td>@user.Gender</td>
+                </tr>
+        }
+        </tbody>
+    </table>
+}
+
+@code {
+    private IEnumerable<AppUser> users;
+
+    protected override async Task OnInitializedAsync()
+    {
+        users = await UserService.GetAllUserAsync();
+    }
+}

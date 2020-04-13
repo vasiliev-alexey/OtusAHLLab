@@ -1,0 +1,84 @@
+﻿@page
+@model RegisterModel
+@{
+    ViewData["Title"] = "Регистрация";
+}
+
+<h1>@ViewData["Регистрация"]</h1>
+
+<div class="row">
+    <div class="col-md-6">
+        <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
+            <h4>Создание нового пользователя.</h4>
+            <hr />
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Input.Email"></label>
+                <input asp-for="Input.Email" class="form-control" />
+                <span asp-validation-for="Input.Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.Password"></label>
+                <input asp-for="Input.Password" class="form-control" />
+                <span asp-validation-for="Input.Password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.ConfirmPassword"></label>
+                <input asp-for="Input.ConfirmPassword" class="form-control" />
+                <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+            </div>
+            
+            <div class="form-group">
+                <label asp-for="Input.FirstName"></label>
+                <input asp-for="Input.FirstName" class="form-control" />
+                <span asp-validation-for="Input.FirstName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.LastName"></label>
+                <input asp-for="Input.LastName" class="form-control" />
+                <span asp-validation-for="Input.LastName" class="text-danger"></span>
+            </div>          
+            
+            
+            <div class="form-group">
+                <label asp-for="Input.Age"></label>
+                <input asp-for="Input.Age" class="form-control" />
+                <span asp-validation-for="Input.Age" class="text-danger"></span>
+            </div>  
+
+
+            <div class="form-group">
+                <label asp-for="Input.City"></label>
+                <input asp-for="Input.City" class="form-control" />
+                <span asp-validation-for="Input.City" class="text-danger"></span>
+            </div>  
+            
+            
+            <div class="form-group">
+                <label asp-for="Input.Hobby"></label>
+                <input asp-for="Input.Hobby" class="form-control" />
+                <span asp-validation-for="Input.Hobby" class="text-danger"></span>
+            </div>  
+ 
+            <div class="form-group">
+                @Html.DropDownList("Input.Gender", new List<SelectListItem>
+                {
+                    new SelectListItem{ Text="М", Value="0"},
+                    new SelectListItem{ Text="Ж", Value="1"}
+                }, "--- Выберите пол ---", new { @class = "form-control" })
+            </div>
+  
+
+            <button type="submit" class="btn btn-primary">Регистрация</button>
+        </form>
+    </div>
+    @*<div class="col-md-6 col-md-offset-2">
+        <section>
+            <h4>Регистрируемся, не задерживаемся</h4>
+        </section>
+    </div>*@
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
