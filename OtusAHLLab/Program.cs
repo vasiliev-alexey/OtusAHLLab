@@ -23,6 +23,7 @@ namespace OtusAHLLab
             Log.Logger = new LoggerConfiguration()
                 .Enrich.FromLogContext()
                 .WriteTo.Console()
+                .WriteTo.File("log.log", rollingInterval: RollingInterval.Day)
                 .CreateLogger();
 
             try
@@ -45,7 +46,8 @@ namespace OtusAHLLab
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>()
-                    .UseUrls("http://0.0.0.0:5000", "https://0.0.0.0:5001");
+                    .UseUrls("http://0.0.0.0:5000", 
+                        "https://0.0.0.0:5001");
                 });
     }
 }

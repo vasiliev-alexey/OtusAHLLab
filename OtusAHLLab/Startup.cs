@@ -42,7 +42,6 @@ namespace OtusAHLLab
                 Configuration.GetValue<string>("DB_HOST"),
                 Configuration.GetValue<string>("DB_PASS"));
 
-
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseMySql(con));
             services.AddIdentity<AppUser, AppRole>(options => options.SignIn.RequireConfirmedAccount = false)
@@ -57,6 +56,7 @@ namespace OtusAHLLab
 
         private void BuildConfig(IWebHostEnvironment env)
         {
+
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json",
@@ -70,7 +70,12 @@ namespace OtusAHLLab
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            Console.Write("ssss");
+           
+            foreach (DictionaryEntry environmentVariable in Environment.GetEnvironmentVariables())
+            {
+                Log.Information($"key= ${environmentVariable.Key} val= ${environmentVariable.Value} ");
+            }
+
 
 
             BuildConfig(env);
