@@ -50,6 +50,7 @@ namespace OtusAHLLab
             services.AddServerSideBlazor();
             services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<AppUser>>();
             services.AddTransient<IUserRepository, IUserRepository>(provider => new UserRepository(con));
+            services.AddTransient<IFriendshipRepository, FriendshipRepository>(provider => new FriendshipRepository(con));
             services.AddTransient<IUserService, UserService>();
         }
 

@@ -23,7 +23,7 @@ namespace OtusAHLLab
             Log.Logger = new LoggerConfiguration()
                 .Enrich.FromLogContext()
                 .WriteTo.Console()
-                .WriteTo.File("log.log", rollingInterval: RollingInterval.Day)
+                .WriteTo.File("logs/log.log", rollingInterval: RollingInterval.Day)
                 .CreateLogger();
 
             try

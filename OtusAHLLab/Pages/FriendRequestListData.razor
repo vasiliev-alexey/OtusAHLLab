@@ -1,4 +1,4 @@
-﻿@page "/userlist"
+﻿@page "/friendRequest"
 
 @using Microsoft.AspNetCore.Http
 @using OtusAHLLab.Data
@@ -13,7 +13,7 @@
 @inject IUserService UserService
 @inject UserManager<AppUser> UserManager
 
-<h1>Анкеты для дружбы</h1>
+<h1>Запросы на дружбу</h1>
 
 @if (UserService == null)
 {
@@ -46,7 +46,8 @@ else
                 <td>@user.Gender</td>
 
                 <td>
-                    <button class="btn btn-success" @onclick="@(() => AddFriend(@user))">Подружится</button>
+                    <!--button class="btn btn-success" @onclick="@(() => ToFriend(@user))">Подтвердить</button-->
+                    <button class="btn btn-success" @onclick="@(() => ToCancel(@user))">Отозвать</button>
                 </td>
                 
 
@@ -73,26 +74,53 @@ else
 
         // var id= UserManager.GetUserId(user);
         var id = UserManager.GetUserId(user);
-        users = await UserService.GetAvialibleUserAsync(Convert.ToInt64(id));
+        users = await UserService.GetRequestedFriendships(Convert.ToInt64(id));
 
-       
 
-       // users = await UserService.GetAllUserAsync(StatusCode.All);
+
+        // users = await UserService.GetAllUserAsync(StatusCode.All);
     }
 
-    private async Task<bool> AddFriend(AppUser appUser)
+    private async Task<bool> ToFriend(AppUser id)
     {
         var authState = await authenticationStateTask;
         var user = authState.User;
         var userId = UserManager.GetUserId(user);
-        
+        await UserService.ConfirmFriendship(Convert.ToInt64(userId), id.Id);
+        Console.WriteLine("Дружим");
+
+
+
+
+
+
         var u =  users.ToList();
-        u.Remove(appUser);
+        u.Remove(id);
         users = u;
 
-        
-        return await UserService.RequestFriendship(Convert.ToInt64(userId), appUser.Id);
+        StateHasChanged();
+        return await Task.FromResult(true);
+    }
 
+    private async Task<bool> ToCancel(AppUser user)
+    {
+        
+        var authState = await authenticationStateTask;
+        var currUser = authState.User;
+        var userId = UserManager.GetUserId(currUser);
+        await UserService.RejectFriendship(Convert.ToInt64(userId), user.Id);
+        Console.WriteLine("Не Дружим");
+
+        
+        
+        var u =  users.ToList();
+        u.Remove(user);
+        users = u;
+
+
+
+        StateHasChanged();
+        return await Task.FromResult(true);
     }
 
 }

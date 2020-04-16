@@ -1,4 +1,4 @@
-﻿@page "/userlist"
+﻿@page "/Friends"
 
 @using Microsoft.AspNetCore.Http
 @using OtusAHLLab.Data
@@ -21,8 +21,14 @@
 }
 else
 {
-    <table class="table">
-        <thead>
+
+
+    if (users.Any())
+    {
+
+    
+        <table class="table">
+            <thead>
             <tr>
                 <th>Имя</th>
                 <th>Фамилия</th>
@@ -32,28 +38,35 @@ else
                 <th>Пол</th>
                 <th>-</th>
             </tr>
-        </thead>
-        <tbody>
+            </thead>
+            <tbody>
             @foreach (var user in users)
             {
-            <tr  >   
+                <tr  >   
                  
-                <td>@user.FirstName</td>
-                <td>@user.LastName</td>
-                <td>@user.Age</td>
-                <td>@user.City</td>
-                <td>@user.Hobby</td>
-                <td>@user.Gender</td>
+                    <td>@user.FirstName</td>
+                    <td>@user.LastName</td>
+                    <td>@user.Age</td>
+                    <td>@user.City</td>
+                    <td>@user.Hobby</td>
+                    <td>@user.Gender</td>
 
-                <td>
-                    <button class="btn btn-success" @onclick="@(() => AddFriend(@user))">Подружится</button>
-                </td>
+                    <td>
+                        <button class="btn btn-success" @onclick="@(() => RemoveFromFriend(@user))">Отдружится</button>
+                    </td>
                 
 
-            </tr>
+                </tr>
             }
-        </tbody>
-    </table>
+            </tbody>
+        </table>
+
+    }
+    else
+    {
+        <h4>У Вас  еще нет друзей</h4> 
+    }
+
 }
 
 @code {
@@ -73,25 +86,29 @@ else
 
         // var id= UserManager.GetUserId(user);
         var id = UserManager.GetUserId(user);
-        users = await UserService.GetAvialibleUserAsync(Convert.ToInt64(id));
+        users = await UserService.GetFriendsAsync(Convert.ToInt64(id));
 
        
 
        // users = await UserService.GetAllUserAsync(StatusCode.All);
     }
 
-    private async Task<bool> AddFriend(AppUser appUser)
+    private async Task<bool> RemoveFromFriend(AppUser appUser)
     {
         var authState = await authenticationStateTask;
         var user = authState.User;
         var userId = UserManager.GetUserId(user);
-        
+         await UserService.RemoveFriendship(Convert.ToInt64(userId), appUser.Id);
+
+
         var u =  users.ToList();
         u.Remove(appUser);
         users = u;
 
-        
-        return await UserService.RequestFriendship(Convert.ToInt64(userId), appUser.Id);
+
+
+        StateHasChanged();
+        return await Task.FromResult(true);
 
     }
 
