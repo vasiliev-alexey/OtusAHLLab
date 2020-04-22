@@ -114,12 +114,12 @@ Latency  без индексов
  ![Alt text](https://github.com/vasiliev-alexey/OtusAHLLab/blob/master/HW/src/lat_with_index.png)
 
 графики throughput до индекса;  
- ![Alt text](src\throughput_without_index.png)
+ ![Alt text](https://github.com/vasiliev-alexey/OtusAHLLab/blob/master/HW/src/throughput_without_index.png)
 
 Latency  c индексами  
- ![Alt text](src\lat_with_index.png)
+ ![Alt text](https://github.com/vasiliev-alexey/OtusAHLLab/blob/master/HW/src/lat_with_index.png)
 
  графики throughput с индексом;  
- ![Alt text](src\throughput_with_index.png)
+ ![Alt text](https://github.com/vasiliev-alexey/OtusAHLLab/blob/master/HW/src/throughput_with_index.png)
 
  
