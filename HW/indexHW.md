@@ -111,7 +111,7 @@ Explain:
         }
 
 Latency  без индексов  
- ![Alt text](.\src\lat_without_ind.png)
+ ![Alt text](https://github.com/vasiliev-alexey/OtusAHLLab/blob/master/HW/src/lat_with_index.png)
 
 графики throughput до индекса;  
  ![Alt text](src\throughput_without_index.png)
