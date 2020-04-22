@@ -111,7 +111,7 @@ Explain:
         }
 
 Latency  без индексов  
- ![Alt text](src\lat_without_ind.png)
+ ![Alt text](.\src\lat_without_ind.png)
 
 графики throughput до индекса;  
  ![Alt text](src\throughput_without_index.png)
