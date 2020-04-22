@@ -52,8 +52,10 @@
         create index fn_ln on aspnetusers (FirstName,LastName)
 8. Прогоняем тесты нагрузки повторно
 
-План по индексу:
-Explain:
+## Ответ по домашней работе:
+
+### План по индексу:
+    Explain:
 
         {
         "query_block": {
@@ -110,6 +112,7 @@ Explain:
         }
         }
 
+### Графики
 Latency  без индексов  
  ![Alt text](https://github.com/vasiliev-alexey/OtusAHLLab/blob/master/HW/src/lat_with_index.png)
 
@@ -122,4 +125,13 @@ Latency  c индексами
  графики throughput с индексом;  
  ![Alt text](https://github.com/vasiliev-alexey/OtusAHLLab/blob/master/HW/src/throughput_with_index.png)
 
- 
+### Таблица испытаний   
+|         Показатель         	|   1   	|   10  	|  100  	|  1000 	|
+|:--------------------------:	|:-----:	|:-----:	|:-----:	|:-----:	|
+| latency: Без   индексов    	| 1,13  	| 2,55  	| 7,02  	| 32,33 	|
+| latency:С индексми         	| 0,06  	| 0,60  	| 6,07  	| 12,42 	|
+| Throughput: Без   индексов 	| 0     	| 2,87  	| 3,03  	| 2,66  	|
+| Throughput: С   индексами  	| 17,41 	| 16,67 	| 20,05 	| 19,64 	|
+
+### Пояснения по создаваемому индексу
+    Создан индекс по 2 полям, потому что  в предикате запроса используется нечеткий поиск по 2 полям.

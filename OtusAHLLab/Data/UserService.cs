@@ -41,6 +41,13 @@ namespace OtusAHLLab.Data
             return Task.FromResult(_repository.GetReqFriendShips(currAppuserId));
         }
 
+        public async Task<IEnumerable<AppUser>> GetCandidatesByNames(string firstNamePattern, string lastNamePatterns)
+        {
+            var users = await _repository.GetCandidatesByNames(firstNamePattern, lastNamePatterns);
+
+            return users;
+        }
+
         public Task<IEnumerable<AppUser>> GetIncomeFriendships(long curAppUserId)
         {
             return Task.FromResult(_repository.GetIncomeReqFriendShips(curAppUserId));

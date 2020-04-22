@@ -37,11 +37,11 @@ namespace OtusAHLLab.Data.Repository
 
         public IEnumerable<AppUser> GetUsers(StatusCode statusCode)
         {
-            var sql = "SELECT * FROM AspNetUsers";
+            var sql = "SELECT * FROM AspNetUsers limit 10";
             if (statusCode != StatusCode.All)
                 sql = @"SELECT * FROM AspNetUsers u join  
                             friendship f on u.Id = f.user_two_id 
-                                and f.status = ${statusCode}";
+                                and f.status = ${statusCode}  limit 10";
 
             using (var db = GetDbConnection())
             {
@@ -58,7 +58,9 @@ namespace OtusAHLLab.Data.Repository
                                 and u.Id not in 
                             (select f.user_two_id from friendship f where f.user_one_id =@Id
                                    union all
-                                   select f.user_one_id from friendship f where f.user_two_id = @Id)";
+                                   select f.user_one_id from friendship f where f.user_two_id = @Id)
+                    limit 100    
+                    ";
 
 
             using var db = GetDbConnection();
@@ -99,6 +101,18 @@ namespace OtusAHLLab.Data.Repository
 
             using var db = GetDbConnection();
             return db.Query<AppUser>(sql, new {@Id = curAppUserId});
+        }
+
+        public async Task<IEnumerable<AppUser>> GetCandidatesByNames(string firstNamePattern, string lastNamePatterns)
+        {
+            var sql = @" select * from
+                            aspnetusers u 
+                            where u.FirstName like  @FirstNamePattern and u.LastName like @LastNamePatterns
+                            limit 1000
+                        ";
+            using var db = GetDbConnection();
+            var users = await db.QueryAsync<AppUser>(sql, new { FirstNamePattern = firstNamePattern, LastNamePatterns = lastNamePatterns });
+            return users;
         }
 
         public void Update(AppUser user)

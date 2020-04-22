@@ -12,6 +12,9 @@ namespace OtusAHLLab.Data
         Task<IEnumerable<AppUser>> GetFriendsAsync(long currAppuserId);
         Task<IEnumerable<AppUser>> GetRequestedFriendships(long currAppuserId);
 
+        Task<IEnumerable<AppUser>> GetCandidatesByNames(string firstNamePattern, string lastNamePatterns);
+
+
         Task<IEnumerable<AppUser>> GetIncomeFriendships(long currAppuserId);
 
         Task<bool> RequestFriendship(long currAppuserId, long friendId);

@@ -18,5 +18,6 @@ namespace OtusAHLLab.Data.Interfaces
         IEnumerable<AppUser> GetReqFriendShips(long currentUser);
         IEnumerable<AppUser> GetFriends(long curAppuserId);
         IEnumerable<AppUser> GetIncomeReqFriendShips(long curAppUserId);
+        Task<IEnumerable<AppUser>> GetCandidatesByNames(string firstNamePattern, string lastNamePatterns);
     }
 }
