@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Dapper;
 using OtusAHLLab.Data.Interfaces;
 using OtusAHLLab.Modules.Domain;
@@ -8,7 +10,7 @@ namespace OtusAHLLab.Data.Repository
 {
     public class FriendshipRepository : BaseRepository, IFriendshipRepository
     {
-        public FriendshipRepository(string conn) : base(conn)
+        public FriendshipRepository(string conn) : base(conn, Enumerable.Empty<string>())
         {
         }
 

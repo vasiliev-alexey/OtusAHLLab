@@ -14,7 +14,7 @@ namespace OtusAHLLab.Data.Repository
 {
     public class UserRepository : BaseRepository, IUserRepository
     {
-        public UserRepository(string conn) : base(conn)
+        public UserRepository(string conn, IEnumerable<string> readOnlyConnList) : base(conn, readOnlyConnList)
         {
         }
 
@@ -49,7 +49,11 @@ namespace OtusAHLLab.Data.Repository
             }
         }
 
-
+        /// <summary>
+        /// Метод возвращает список анкет-кандидатов для дружбы, для текущего пользователя
+        /// </summary>
+        /// <param name="currentUser">Идентификатор текущего пользователя</param>
+        /// <returns></returns>
         public IEnumerable<AppUser> GetCandidateUsers(long currentUser)
         {
             var sql = @"SELECT *
@@ -63,7 +67,7 @@ namespace OtusAHLLab.Data.Repository
                     ";
 
 
-            using var db = GetDbConnection();
+            using var db = GetReadOnlyDbConnection();
             return db.Query<AppUser>(sql, new {@Id = currentUser});
         }
 
@@ -103,15 +107,22 @@ namespace OtusAHLLab.Data.Repository
             return db.Query<AppUser>(sql, new {@Id = curAppUserId});
         }
 
+        /// <summary>
+        /// Метод возвращает список анкет с фильтром по имени (firstNamePattern) и фамилии (lastNamePatterns)
+        /// </summary>
+        /// <param name="firstNamePattern"></param>
+        /// <param name="lastNamePatterns"></param>
+        /// <returns></returns>
         public async Task<IEnumerable<AppUser>> GetCandidatesByNames(string firstNamePattern, string lastNamePatterns)
         {
             var sql = @" select * from
-                            aspnetusers u 
+                            AspNetUsers u 
                             where u.FirstName like  @FirstNamePattern and u.LastName like @LastNamePatterns
                             limit 1000
                         ";
-            using var db = GetDbConnection();
-            var users = await db.QueryAsync<AppUser>(sql, new { FirstNamePattern = firstNamePattern, LastNamePatterns = lastNamePatterns });
+            using var db = GetReadOnlyDbConnection();
+            var users = await db.QueryAsync<AppUser>(sql,
+                new {FirstNamePattern = firstNamePattern, LastNamePatterns = lastNamePatterns});
             return users;
         }
 

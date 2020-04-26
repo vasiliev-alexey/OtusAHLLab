@@ -42,6 +42,23 @@ namespace OtusAHLLab
                 Configuration.GetValue<string>("DB_HOST"),
                 Configuration.GetValue<string>("DB_PASS"));
 
+          
+            var connectionList = new List<string>();
+
+            for (int i =0; i < 10; i++)
+            {
+                var conRepl = Configuration.GetValue<string>($"DB:ConnectionStringReplicas_{i}");
+                if (!string.IsNullOrEmpty(conRepl))
+                {
+                    connectionList.Add(conRepl);
+                }
+
+            }
+
+           
+           
+           
+
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseMySql(con));
             services.AddIdentity<AppUser, AppRole>(options => options.SignIn.RequireConfirmedAccount = false)
@@ -49,7 +66,7 @@ namespace OtusAHLLab
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<AppUser>>();
-            services.AddTransient<IUserRepository, IUserRepository>(provider => new UserRepository(con));
+            services.AddTransient<IUserRepository, IUserRepository>(provider => new UserRepository(con, connectionList));
             services.AddTransient<IFriendshipRepository, FriendshipRepository>(provider => new FriendshipRepository(con));
             services.AddTransient<IUserService, UserService>();
         }
