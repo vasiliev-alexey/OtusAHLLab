@@ -90,12 +90,12 @@
 
 Показатели метрик контейнеров до переключения на  реплики  - чтение с мастера  
 
- ![Картинка в src\read_from_master.png ](src/read_from_master.png)
+ ![Картинка в img\read_from_master.png ](img/read_from_master.png)
 
 
 Показатели метрик контейнеров после переключения на  реплики  
 
- ![Картинка в src\read_from_replica.png ](src/read_from_replica.png) 
+ ![Картинка в img\read_from_replica.png ](img/read_from_replica.png) 
 
  Как видно из графиков Graphana  -  утилизация  CPU и сетевой трафик переключился на контейнер со Slave
 
