@@ -37,12 +37,12 @@
     - переход на найденному url из ответа системы
 Структура сценария:  
 
-![img\load_plan_struct.png ](.\img\load_plan_struct.png)
+![img\load_plan_struct.png ](/img/load_plan_struct.png)
 
 
 Проведено нагрузочное  тестирование сервиса в течение 10 минут с числом потоков = 3
 
-![img\load_plan_struct.png ](.\img\load_test_rez.png)
+![img\load_plan_struct.png ](/img/load_test_rez.png)
 
 
 #### Выводы: 
