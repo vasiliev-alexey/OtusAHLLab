@@ -33,7 +33,7 @@
 2. Создан [bash-сценарий по настройке](./src/docker-mysql-master-slave/build.sh)
 
 #####    Алгоритм настройки  
-    1. На mysql_master  инсталируем плагин, высталям конфиги:
+1. На mysql_master  инсталируем плагин, высталям конфиги:
 
             INSTALL PLUGIN rpl_semi_sync_master SONAME 'semisync_master.so';  
             SET GLOBAL rpl_semi_sync_master_enabled = 1;   
@@ -54,14 +54,14 @@
 
 
 
-    2. Перезапускаем mysql_master
-    3. На mysql_slave_1 и mysql_slave_2  интсалируем плагин, высталям конфиги:
+ 2. Перезапускаем mysql_master
+ 3. На mysql_slave_1 и mysql_slave_2  интсалируем плагин, высталям конфиги:
 
             INSTALL PLUGIN rpl_semi_sync_slave SONAME "semisync_slave.so";
             SET GLOBAL rpl_semi_sync_slave_enabled = 1;
 
 
-        Конфиг [слейва](./src/docker-mysql-master-slave/slave_1/conf/mysql.conf.cnf )
+   Конфиг [слейва](./src/docker-mysql-master-slave/slave_1/conf/mysql.conf.cnf )
 
 
                 [mysqld]
@@ -79,7 +79,7 @@
                 binlog_do_db = mydb
 
 
-    4. Промоутим мастер на слейвах  
+  4. Промоутим мастер на слейвах  
 
             CHANGE MASTER TO
             MASTER_HOST='mysql_master',
@@ -87,10 +87,10 @@
             MASTER_PASSWORD='mydb_slave_pwd',
             MASTER_LOG_FILE='mysql-bin.00000X',
             MASTER_LOG_POS= xxx;
-    5. если все заведется т в логах можно увидеть  
+ 5. если все заведется т в логах можно увидеть  
 
             mysql_master     | 2020-05-05T19:29:37.696096Z 3 [Note] Start asynchronous binlog_dump to slave (server_id: 2), pos(mysql-bin.000002, 154)
-    6. или  
+ 6. или  
           show slave status
 
             Slave_SQL_Running Yes  
