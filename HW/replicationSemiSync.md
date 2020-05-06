@@ -19,19 +19,20 @@
 Проведен эксперимент по потере и непотере транзакций при аварийной остановке master. 
 
 #### Журнал работ:
-    1. Создаем репликацию 2 слейва и 1 мастер через docker-compose
-    2. Настраиваем semisync  репликацию
+1. Создаем репликацию 2 слейва и 1 мастер через [docker-compose](./src/docker-mysql-master-slave/docker-compose.yml)
+2. Настраиваем semisync  репликацию (./src/docker-mysql-master-slave/build.sh)
+3. Пишем [скрипт нагрузки](./src/my_sql_insert_load.ps1) 
+4. Проводим лаботраторые работы
 
 
-
-#### Заметки
+ 
  
 
 ### Ответы на ДЗ
 1. Создан кластер из 3 инстансов MySQL [docker-compose](./src/docker-mysql-master-slave/docker-compose.yml)
 2. Создан [bash-сценарий по настройке](./src/docker-mysql-master-slave/build.sh)
 
-    Алгоритм настройки  
+#####    Алгоритм настройки  
     1. На mysql_master  инсталируем плагин, высталям конфиги:
 
             INSTALL PLUGIN rpl_semi_sync_master SONAME 'semisync_master.so';  
@@ -94,6 +95,28 @@
 
             Slave_SQL_Running Yes  
             Slave_IO_Running  Yes
+
+##### Эксперименты с транзакциями
+1. Запускаем [скрипт нагрузки](./src/my_sql_insert_load.ps1) 
+2. Убиваем контейнер  с мастером  
+
+        docker kill mysql_master  
+3. Скрипт нагрузки показывает последний удачно записанный ID -  показал 6200
+4. На обоих слевах увы оказалось 6119 - потеряли
+5. Промоутим mysql_slave_1  на mysql_slave_2 - меняя конфиги от мастера на слейв
+
+        STOP SLAVE FOR CHANNEL '';
+        reset slave;
+
+        CHANGE MASTER TO
+        MASTER_HOST='mysql_slave_1',
+        MASTER_USER='mydb_slave_user',
+        MASTER_PASSWORD='mydb_slave_pwd',
+        MASTER_AUTO_POSITION = 1;
+
+        start slave;
+6. Перенакат транзакций со слейва увы не удался ни в одной и попыток
+
 
 #### Материалы:
 - [Настройка репликации в Mysql](http://www.rldp.ru/mysql/mysql80/replica.htm)
